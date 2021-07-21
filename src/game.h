@@ -17,16 +17,13 @@ class Game {
         void Run(Controller const &controller, Renderer &renderer,
                 std::size_t target_frame_duration);
         int GetScore() const;
-        int GetSize() const;
-        //MagBrace *magBraceL;     
+        int GetSize() const;    
     
     private:
         Charon charon;
-        //std::shared_ptr<MagBrace> magBraceR;
         MagBrace *magBraceR;     
-        Roid roid;
         RoidBelt *roidBelt;
-        SDL_Point survivor;   //struct to store x and y coordintates // ie Screen space
+        SDL_Point survivor;
 
         std::random_device dev;
         std::mt19937 engine;
@@ -35,7 +32,7 @@ class Game {
 
         int score{0};
         int survivorCount {0};
-        int survivorLocations [4][2] = {{250,250}, 
+        int survivorLocations [4][2] = {{250,250},                      //Pre-designated locations of Survivors
                                         {640,750},
                                         {250,600},
                                         {550,400} };
@@ -45,7 +42,6 @@ class Game {
         void Update();
         void checkCharCollisions();
         void checkMagBraceRightCollisions();
-        //void checkMagBraceLeftCollisions()
         
 };
 

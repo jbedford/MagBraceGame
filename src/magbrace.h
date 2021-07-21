@@ -9,18 +9,17 @@ class MagBrace {
     public:
         enum class MagBraceState { Homed, Launched, Anchored, Released};
         //MagBrace();
-        MagBrace() : c_x(0.0f), c_y(0.0f), 
-                        currentState(MagBraceState::Homed) {
+        MagBrace(int grid_width, int grid_height) 
+                :   c_x(0.0f), c_y(0.0f),
+                    _grid_width(grid_width), _grid_height(grid_height),
+                    currentState(MagBraceState::Homed) {
                             magBraceBodyPoints = new SDL_Point[vertexCount];
                         }
         
-        ~MagBrace(){
-            for(int i; i< vertexCount; i++){
-                delete &magBraceBodyPoints[i];
-            }
-            //delete[] magBraceBodyPoints; //not a straight forward vector
+        ~MagBrace(){                                    // destructor
+            delete[] magBraceBodyPoints;
         }
-        /*
+        
         MagBrace(const MagBrace &source)                // copy constructor
         {
             magBraceBodyPoints = new SDL_Point[vertexCount];
@@ -32,45 +31,35 @@ class MagBrace {
             magBraceBodyPoints = source.magBraceBodyPoints;
             source.magBraceBodyPoints = nullptr;
         }
-
+        
         MagBrace &operator=(const MagBrace &source)     // copy assignment operator
         {
             if (this == &source){
                 return *this;}
-            //delete[] magBraceBodyPoints;
+            delete[] magBraceBodyPoints;
             magBraceBodyPoints = new SDL_Point [source.vertexCount];
             *magBraceBodyPoints = *source.magBraceBodyPoints;
             return *this;
         }
-
+        
         MagBrace &operator=(MagBrace &&source)          // move assignment operator
         {
             if(this == &source){
                 return *this;}
             
-            //delete[] magBraceBodyPoints;
+            delete[] magBraceBodyPoints;
 
             magBraceBodyPoints = source.magBraceBodyPoints;
             source.magBraceBodyPoints = nullptr;
 
             return *this;
         }
-        */
 
-        /*SDL_Point getCurrentPoint();
-        SDL_Point getOriginPoint();
-        SDL_Point getAnchorPoint();
-        SDL_Point getLaunchPoint();*/
         Point getCurrentPoint();
         Point getOriginPoint();
         Point getAnchorPoint();
         Point getLaunchPoint();
 
-        /*void setCurrentPoint(SDL_Point point);
-        void setOriginPoint(SDL_Point point);
-        void seAnchorPoint(SDL_Point point);
-        void setLaunchPoint(SDL_Point point);
-        void setLaunchAngle(SDL_Point point);*/
         void setCurrentPoint(Point point);
         void setOriginPoint(Point point);
         void setAnchorPoint(Point point);
@@ -115,15 +104,15 @@ class MagBrace {
     private:
         float homedAngle;
         Point currentPoint;
-        Point originPoint;         //float or int
-        Point anchorPoint;         //float or int
-        Point launchPoint;         //float or int
+        Point originPoint;                  //float or int
+        Point anchorPoint;                  //float or int
+        Point launchPoint;                  //float or int
         
-        float launchSpeed {150.0f};             //meters/second //45? 75
-        float launchRange {300.0f};         //200 meters
+        float launchSpeed {150.0f};         //meters/second
+        float launchRange {300.0f};         //meters
         UnitVector launchAngle;             //unit vector
-        float pullForce = 16000.0f;      //newtons
-        float pushForce = 12000.0f;     //newtons        //200?
+        float pullForce = 16000.0f;         //newtons
+        float pushForce = 12000.0f;         //newtons
         bool pullOrPush = false;
 
         bool activeForce = false;
@@ -143,9 +132,9 @@ class MagBrace {
         //void UpdateRotAngle();
         void UpdateBracePoints();
 
-        float _cycleTime    {.016f};    //in ms,  16 ms
-        int grid_width {800};             //REMOVE HARDCODE LATER
-        int grid_height {1000};
+        float _cycleTime    {.016f};        //in ms,  16 ms
+        int _grid_width     {800};
+        int _grid_height    {1000};
 
 
 };

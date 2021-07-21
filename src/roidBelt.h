@@ -9,15 +9,10 @@
 class RoidBelt {
     public:
         RoidBelt(int grid_width, int grid_height) : _grid_width(grid_width), _grid_height(grid_height)
-            {
-                
-                SetUpRoidBelt();
-                //for(int i = 0; i < totalRoids; i++){};
-                //roid* roid1 = new roid(int initX, int initY, float vector, float velocity, int type, int id);
-                //roids.push_back(roid1);
-
-
+        {       
+            SetUpRoidBelt();
         };
+
         ~RoidBelt(){};
 
         std::vector<Roid*> roids;
@@ -29,8 +24,6 @@ class RoidBelt {
 
         Roid* getCollidedRoid();
 
-        //std::vector<Point> getRoidPoses();
-
         Roid* magAnchorLRoid = NULL;
         Roid* magAnchorRRoid = NULL;
 
@@ -40,17 +33,13 @@ class RoidBelt {
     private:
         void UpdateRoids();
 
-        int totalRoids = 8;
+        int totalRoids;
 
-        void SetUpRoidBelt();            //compose a bunch of roids with starting pos and velocities
-        //void addNewRoid(roid *newRoid);
-        //void removeRoid(roid *roidId);
+        void SetUpRoidBelt();               //Composes roids with starting positions and velocities
+
 
         Roid* collidedRoid = NULL;
 
-        //std::vector<roid*> roids;
-
-        //std::vector<float> startingpoints and velocities, use a regular file to import this.);
 
         int _grid_width;
         int _grid_height;

@@ -44,7 +44,7 @@ Renderer::~Renderer() {
     SDL_Quit();
 }
 
-void Renderer::Render(Charon const charon, Roid const roid, RoidBelt const roidBelt, MagBrace const &magBraceR, SDL_Point const &survivor) {
+void Renderer::Render(Charon const charon, RoidBelt const roidBelt, MagBrace const &magBraceR, SDL_Point const &survivor) {
     SDL_Rect block;
     //block.w = screen_width / grid_width;
     //block.h = screen_height / grid_height;
@@ -85,11 +85,6 @@ void Renderer::Render(Charon const charon, Roid const roid, RoidBelt const roidB
 
     DrawMagBraceAimLines(charon.angle, charon.c_x, charon.c_y);
 
-    if (roid.alive) {
-        //SDL_SetRenderDrawColor(sdl_renderer, 0x99, 0x77, 0x91, 0xFF); //Purple
-        //SDL_RenderDrawLines(sdl_renderer, roid.roidPoints, 8);
-        DrawRoid(roid.c_x, roid.c_y);
-    }
 
     //DRAWROIDBELT
     //std::cout << "Rendering Roids in Roid Belt" << std::endl;
@@ -117,15 +112,6 @@ void Renderer::Render(Charon const charon, Roid const roid, RoidBelt const roidB
     SDL_RenderDrawLine(sdl_renderer, 200, 300, 400, 400);*/
     //Testing END
 
-
-
-    //Render Roids
-        //rendering roid about centroid cx, cy. All needed lines are relative to it. 
-
-        //Render polygon that takes in a series of points / set points and defines a centroid. -> returns a series of line points with the right graph coords.
-        //ie astroid lines.
-
-    //roidType1( 400, 500);
 
 
     //Render MagBraces
@@ -201,33 +187,6 @@ void Renderer::DrawMagBraceAimLines(float charAngle, float charX, float charY){
 
 }
 
-void Renderer::roidType1(int cx, int cy){   //want to pass the points, so pass around the SDL_Points object or just make a roid object containing it that deletes it when it is finished,
-                                            //and has a way to access a reference to the SDL_Points
-    SDL_Point * roid = new SDL_Point[8];
-    roid[0].x = cx - 30;
-    roid[0].y = cy - 8;
-
-    roid[1].x = cx - 10;
-    roid[1].y = cy - 30;
-
-    roid[2].x = cx + 15;
-    roid[2].y = cy - 40;
-    roid[3].x = cx + 40;
-    roid[3].y = cy - 32;
-    roid[4].x = cx + 55;
-    roid[4].y = cy - 10;
-    roid[5].x = cx + 30;
-    roid[5].y = cy + 20;
-    roid[6].x = cx - 15;
-    roid[6].y = cy + 12;
-    roid[7].x = cx - 30;
-    roid[7].y = cy - 8;
-
-    SDL_SetRenderDrawColor(sdl_renderer, 0x69, 0x47, 0x51, 0xFF); //Purple
-    SDL_SetRenderDrawColor(sdl_renderer, 0x2F, 0x32, 0x9F, 0xFF); //Purple
-    SDL_RenderDrawLines(sdl_renderer, roid, 8);
-}
-
 void Renderer::DrawRoid(float cx, float cy){
     //SDL_Point * roidPoints = new roidPoints[8];
     for(int i = 0; i < _roidVertexCount; i++){
@@ -242,62 +201,6 @@ void Renderer::DrawRoid(float cx, float cy){
     SDL_RenderDrawLines(sdl_renderer, roidPoints, 8);
 }
 
-/*void Renderer::threadDrawCharrismasNose(){
-    //SDL_SetRenderDrawColor(sdl_renderer1, 0xDF, 0x42, 0x2F, 0xFF); //Maroon
-    int count = 40;
-    SDL_Point * points = new SDL_Point[count];
-    for(int i=0; i<count; i++){
-        points[i].x = i * 3;
-        points[i].y = i * 4 + i;
-    }
-    //SDL_SetRenderDrawColor(sdl_renderer1, 0xF6, 0x2E, 0xF5, 0xFF);
-    //SDL_RenderDrawPoints(sdl_renderer1, points, count);
-    delete[] points;
-}*/
-
-void Renderer::DrawBackground(){
-    /*if(bkgd_Mod<40){bkgd_Mod= 40;}
-    //int bkgd_Mod1 = fmod(bkgd_Mod, 100);
-    bkgd_Mod = fmod(bkgd_Mod, 100);
-    SDL_SetRenderDrawColor(sdl_renderer, 0x2F, 0x32, 0x9F, 0x6F); //Purple
-    auto threadDrawTheVoid = [&sdl_renderer](const int bkgd_Mod1) {
-        for(int i = 0; i < ((1000/bkgd_Mod1)-1); i++){
-            int hLevel = (1000/bkgd_Mod1)*(i+1);
-            hLevel = fmod(hLevel, 1000);
-            SDL_RenderDrawLine(sdl_renderer, 5, hLevel, (800-5), hLevel);
-        }
-    };
-    std::thread t1(threadDrawTheVoid(bkgd_Mod));
-    */
-    //std::thread t2(&Renderer::threadDrawCharrismasNose, this);
-    //t2.detach();
-
-
-
-    //t1.join();
-    //t2.join();
-    //bkgd_Mod++;
-}
-/*void Renderer::DrawVictoryScreen(){
-    TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
-    SDL_Color White = {255,255,255};
-    
-    SDL_Surface* surfaceMessage = 
-        TTF_RenderText_Solid(Sans, "Success Game Won!", White);
-    
-    SDL_Texture* Message = SDL_CreateTextureFromSurface(sdl_renderer, surfaceMessage);
-
-    SDL_Rect Msg_rect;
-    Msg_rect.x = 400;
-    Msg_rect.y = 50;
-    Msg_rect.w = 100;
-    Msg_rect.h = 100;
-
-    SDL_RenderCopy(sdl_renderer, Message, NULL, &Msg_rect);
-
-    SDL_FreeSurface(surfaceMessage);
-    SDL_DestroyTexture(Message);
-}*/
 
 
 void Renderer::UpdateWindowTitle(int score, int fps) {

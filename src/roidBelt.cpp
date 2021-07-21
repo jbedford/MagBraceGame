@@ -22,8 +22,10 @@ void RoidBelt::SetUpRoidBelt(){
     Roid* roid5 = new Roid(200, 500, _grid_width, _grid_height, 0.0f, 0.0f, 5);
     roids.push_back(roid5);
     totalRoids++;
-    
-
+    Roid* roid6 = new Roid(400, 400, _grid_width, _grid_height, -8.0f, -3.0f, 6);
+    roids.push_back(roid6);
+    totalRoids++;
+    //500, 250,0, -10; -38.0f , 120.0f
 }
 
 //void AddNewRoid(roid * newRoid){}
@@ -31,10 +33,7 @@ void RoidBelt::SetUpRoidBelt(){
 
 void RoidBelt::Update()
 {   
-    //std::cout << "Updating Roid Belt" << std::endl;
     UpdateRoids();
-
-
 }
 
 bool RoidBelt::CheckCollision(float x, float y)
@@ -46,7 +45,6 @@ bool RoidBelt::CheckCollision(float x, float y)
         }
     }
     return false;
-
 }
 
 Roid* RoidBelt::getCollidedRoid()
@@ -56,7 +54,7 @@ Roid* RoidBelt::getCollidedRoid()
 
 void RoidBelt::UpdateRoids()
 {
-    for(int i = 0; i < roids.size(); i++){    //roid.size()
+    for(int i = 0; i < roids.size(); i++){
         roids[i]->Update();
     }
 }

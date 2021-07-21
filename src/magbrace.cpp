@@ -11,27 +11,22 @@
 //copy assignment operator
 //MagBrace &operator=(const MagBrace &){}
 
-/*SDL_Point MagBrace::getCurrentPoint()   { return currentPoint; }
-SDL_Point MagBrace::getOriginPoint()    { return originPoint; }
-SDL_Point MagBrace::getAnchorPoint()    { return anchorPoint; }
-SDL_Point MagBrace::getLaunchPoint()    { return launchPoint; }*/
-Point MagBrace::getCurrentPoint()   { return currentPoint; }
-Point MagBrace::getOriginPoint()    { return originPoint; }
-Point MagBrace::getAnchorPoint()    { return anchorPoint; }
-Point MagBrace::getLaunchPoint()    { return launchPoint; }
+Point MagBrace::getCurrentPoint()               { return currentPoint; }
+Point MagBrace::getOriginPoint()                { return originPoint; }
+Point MagBrace::getAnchorPoint()                { return anchorPoint; }
+Point MagBrace::getLaunchPoint()                { return launchPoint; }
 
 void MagBrace::setCurrentPoint(Point point)     { 
     currentPoint = point; 
     c_x = point.x;
     c_y = point.y;}
 void MagBrace::setOriginPoint(Point point)      { originPoint = point; }
-void MagBrace::setAnchorPoint(Point point)       { anchorPoint = point; }
+void MagBrace::setAnchorPoint(Point point)      { anchorPoint = point; }
 void MagBrace::setLaunchPoint(Point point)      { launchPoint = point; }
-void MagBrace::setLaunchAngle(UnitVector nAngle) { launchAngle = nAngle; }
-void MagBrace::setHomedAngle(float nAngle)       { homedAngle = nAngle; }
+void MagBrace::setLaunchAngle(UnitVector nAngle){ launchAngle = nAngle; }
+void MagBrace::setHomedAngle(float nAngle)      { homedAngle = nAngle; }
 
-bool MagBrace::isActive()           { return activeForce; }
-
+bool MagBrace::isActive()                       { return activeForce; }
 void MagBrace::setActive(){
     if(currentState == MagBraceState::Anchored){
         activeForce = true;
@@ -39,14 +34,14 @@ void MagBrace::setActive(){
 }
 
 
-bool MagBrace::isAnchored()         { return anchored; }
+bool MagBrace::isAnchored()                     { return anchored; }
 
-void MagBrace::setAnchored(bool val){ anchored = val; }
+void MagBrace::setAnchored(bool val)            { anchored = val; }
 
-void MagBrace::launch(){                                //varies base on Controller input high mid or low
+void MagBrace::launch(){
     if(currentState == MagBraceState::Homed){
-        std::cout << "MagBrace Right is Launching\n" << std::endl;
-        currentPoint = originPoint;             //remove later
+        //std::cout << "MagBrace Right is Launching\n" << std::endl;
+        currentPoint = originPoint;             
         launchPoint = currentPoint;
         
         float offset1 = 0.34f;
@@ -81,7 +76,6 @@ void MagBrace::activatePush(){
 void MagBrace::release(){
     if(currentState == MagBraceState::Anchored  || currentState == MagBraceState::Launched){
 
-        //currentState = MagBraceState::Released;           //ADD Functionaility LATER
         anchored = false;
         activeForce = false;
         currentState = MagBraceState::Homed;
@@ -108,7 +102,6 @@ void MagBrace::Update()
             currentPoint.y = launchAngle.y * launchSpeed * _cycleTime + currentPoint.y;
             c_x = currentPoint.x;
             c_y = currentPoint.y;
-            //std::cout << "c_x: " << int(c_x) << "c_y: " << int(c_y) << std::endl;
 
             if(calcDistance(launchPoint, currentPoint) > launchRange){
                 currentState = MagBraceState::Homed;
@@ -126,11 +119,11 @@ void MagBrace::Update()
             break;
 
         case MagBraceState::Released:
-            //count to retract back to homed pos on magbrace hold
-            //time based on distance fromlast anchor point.
-            //after time is out, set State to homed so current pos updated by char   
-            //homed = true;
-            //returnSpeed is quicker
+            //Proposed Design: count to retract back to homed pos on magbrace hold
+                //time based on distance fromlast anchor point.
+                //after time is out, set State to homed so current pos updated by char   
+                //homed = true;
+                //returnSpeed is quicker than launch speed 
             break; 
     }
 
@@ -144,15 +137,7 @@ void MagBrace::UpdateBracePoints(){
     for(int i = 0; i < vertexCount; i++){
         magBraceBodyPoints[i].x = static_cast<int>((static_cast<float>(BraceVertexPoints[i][0]) * cos(c_angle)) + (static_cast<float>(BraceVertexPoints[i][1]) * -sin(c_angle))) + static_cast<int>(c_x);
         magBraceBodyPoints[i].y = static_cast<int>((static_cast<float>(BraceVertexPoints[i][0]) * sin(c_angle)) + (static_cast<float>(BraceVertexPoints[i][1]) * cos(c_angle))) + static_cast<int>(c_y);
-        /*if(magBraceBodyPoints[i].x < 0){magBraceBodyPoints[i].x = 0;}
-        if(magBraceBodyPoints[i].x > grid_width-1){magBraceBodyPoints[i].x = grid_width-1;}
-        if(magBraceBodyPoints[i].y < 0){magBraceBodyPoints[i].y = 0;}
-        if(magBraceBodyPoints[i].y > grid_height-1){magBraceBodyPoints[i].y = grid_height-1;}*/
     }
-    /*for(int i = 0; i < 4; i++){
-                std::cout << "point " << i << " : " << magBraceBodyPoints[i].x << ":" << magBraceBodyPoints[i].y << " - ";
-            }
-            std::cout << std::endl; */
 }
 
 UnitVector MagBrace::calculateOriginTrigForce(){

@@ -12,21 +12,12 @@ class Controller{
         void ChangeDirection(Charon &charon, Charon::Direction input,
                             Charon::Direction opposite) const;
 
-        //void leftBraceLaunch();
 
         void RightBraceLaunch(MagBrace &magbrace, int dir) const;
 
-        //void leftBracePull();
-
-        //void rightBracePull();
-
-        //void leftBraceRelease();
-
         void RightBraceRelease(MagBrace &magbrace) const;
 
-        //void turnCCW();
 
-        //void turnCW();
 
 };
 

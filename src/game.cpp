@@ -5,17 +5,12 @@
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     :   charon(grid_width, grid_height),
-        roid(450, 400, grid_width, grid_height, -8.0f, -3.0f, 1), //Encapsulate into a larger class of roids.  500, 250,0, -10; -38.0f , 120.0f
-        //magBraceL(),
         engine(dev()),
         random_w(0, static_cast<int>(grid_width - 1)),
         random_h(0, static_cast<int>(grid_height - 1)) {
 
-    //magBraceR.reset(new MagBrace());
-    //charon.magRight = magBraceR;
 
-    //charon.magBraceL = &magBraceL;
-    magBraceR = new MagBrace();
+    magBraceR = new MagBrace(grid_width, grid_height);
     charon.magBraceR = magBraceR;
 
     roidBelt = new RoidBelt(grid_width, grid_height);
@@ -37,11 +32,9 @@ void Game::Run(Controller const &controller, Renderer &renderer,
         frame_start = SDL_GetTicks();
 
         //Input, update, Render - The main game loop.
-        controller.HandleInput(running, charon, *magBraceR);   //magbraces maybe
-        //controller.HandleInput(running, charon, *magBraceR.get());
+        controller.HandleInput(running, charon, *magBraceR);
         Update();
-        renderer.Render(charon, roid, *roidBelt, *magBraceR, survivor);  //roid, magachors
-        //*(magBraceR.get())
+        renderer.Render(charon, *roidBelt, *magBraceR, survivor);
 
         frame_end = SDL_GetTicks();
 
@@ -66,8 +59,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
         if(winGame){
             std::cout << std::endl;
             std::cout << "GAME OVER! ALL SURVIVORS RESCUED! YOU WIN!" << std::endl;
-            //usleep(3000000);
-            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));  //Consider making this a thread.
             return;
         }
     }
@@ -75,16 +67,6 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
 void Game::PlaceSurvivor() {
     int x, y;
-    /*while (true) {
-        x = random_w(engine);
-        y = random_h(engine);
-        //check that the location is not near Charon before placing Survivor.
-        if (!charon.CharonCell(x,y)) { 
-            survivor.x = x;
-            survivor.y = y;
-            return;
-        }
-    }*/
     if(survivorCount < 4){
         std::cout << "Survivor Count: " << survivorCount << std::endl;
         x = survivorLocations[survivorCount][0];
@@ -96,14 +78,12 @@ void Game::PlaceSurvivor() {
 }
 
 void Game::Update() {
-    ///////////if (!charon.alive) return;                      //ToDo Do Something more professional than this. 
+    ///////////if (!charon.alive) return;
     if(winGame){
 
     }
 
     charon.Update();
-
-    roid.Update();      //should be roids update.
 
     roidBelt->Update();
 
@@ -119,7 +99,7 @@ void Game::Update() {
 
     // check if Charon rescued Survivor
     //if (survivor.x == new_x &&  survivor.y == new_y) {
-    if (abs(survivor.x-new_x) < 25 &&  abs(survivor.y - new_y) < 25) {
+    if (abs((survivor.x+5)-new_x) < 25 &&  abs((survivor.y+5) - new_y) < 25) {
         score++;
         survivorCount++;
         
@@ -140,9 +120,6 @@ void Game::Update() {
 
 void Game::checkCharCollisions(){
     for(int i = 0; i < charon.vertexCount-1; i++){
-        if (roid.RoidCell(static_cast<float>(charon.bodyPoints[i].x) , static_cast<float>(charon.bodyPoints[i].y))){
-            charon.alive = false;
-        }
         if (roidBelt->CheckCollision(static_cast<float>(charon.bodyPoints[i].x) , static_cast<float>(charon.bodyPoints[i].y))){
             charon.alive = false;
         }
@@ -152,25 +129,6 @@ void Game::checkCharCollisions(){
 
 void Game::checkMagBraceRightCollisions(){
     if(magBraceR->getState() == MagBrace::MagBraceState::Launched){
-        //Check Roid Belt //multiple roids object for possible collisions with roid.
-        if (roid.RoidCell(magBraceR->c_x, magBraceR->c_y)){     //Later: change to specified collision Points
-            //Magbrace has collided with a roid
-            roid.anchoredRight = true;
-            magBraceR->setAnchored(true);
-            magBraceR->setState(MagBrace::MagBraceState::Anchored);
-
-            if(!roid.magBraceR){  roid.magBraceR = magBraceR;   }      
-            
-            else{ std::cout << "Error: Issue with unassigning pointer" << std::endl;}
-
-            roid.setRAnchorPointOffset(magBraceR->getCurrentPoint());
-
-            //Roid.calculate offset and update anchor point on updates.
-            
-            //if released, set roid pointer to point to null.
-            //    set roid.anchored to false.
-
-        }
         
         if (roidBelt->CheckCollision(magBraceR->c_x, magBraceR->c_y)){     //Later: change to specified collision Points
             //Magbrace has collided with a roid
