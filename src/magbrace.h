@@ -20,7 +20,7 @@ class MagBrace {
             }
             //delete[] magBraceBodyPoints; //not a straight forward vector
         }
-
+        /*
         MagBrace(const MagBrace &source)                // copy constructor
         {
             magBraceBodyPoints = new SDL_Point[vertexCount];
@@ -55,7 +55,7 @@ class MagBrace {
 
             return *this;
         }
-        
+        */
 
         /*SDL_Point getCurrentPoint();
         SDL_Point getOriginPoint();
@@ -95,7 +95,10 @@ class MagBrace {
         float getMagForce();
 
 
-        MagBraceState currentState;
+        //MagBraceState currentState;
+        MagBraceState getState() const { return currentState;}
+        void setState(MagBraceState stateN) { currentState = stateN;}
+
 
         float c_x;
         float c_y;
@@ -127,6 +130,8 @@ class MagBrace {
         bool anchored = false;              //consider making this public
         bool launched = false;
         bool homed = false;
+
+        MagBraceState currentState;
 
         int BraceVertexPoints [6][2] = {{-5,6}, 
                                         {-3, -4},

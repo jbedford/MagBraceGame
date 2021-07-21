@@ -14,7 +14,7 @@ class Renderer {
                  const std::size_t grid_width, const std::size_t grid_height);
         ~Renderer();
 
-        void Render(Charon const charon, Roid const roid, RoidBelt const roidBelt, MagBrace const magBraceR, SDL_Point const &survivor);
+        void Render(Charon const charon, Roid const roid, RoidBelt const roidBelt, MagBrace const &magBraceR, SDL_Point const &survivor);
         void UpdateWindowTitle(int score, int fps);
         void roidType1(int cx, int cy);
         void DrawMagBraceAimLines(float charAngle, float charX, float charY);

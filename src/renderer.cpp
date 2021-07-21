@@ -44,7 +44,7 @@ Renderer::~Renderer() {
     SDL_Quit();
 }
 
-void Renderer::Render(Charon const charon, Roid const roid, RoidBelt const roidBelt, MagBrace const magBraceR, SDL_Point const &survivor) {
+void Renderer::Render(Charon const charon, Roid const roid, RoidBelt const roidBelt, MagBrace const &magBraceR, SDL_Point const &survivor) {
     SDL_Rect block;
     //block.w = screen_width / grid_width;
     //block.h = screen_height / grid_height;
@@ -129,7 +129,8 @@ void Renderer::Render(Charon const charon, Roid const roid, RoidBelt const roidB
 
 
     //Render MagBraces
-    switch(magBraceR.currentState){
+    MagBrace::MagBraceState checkState = magBraceR.getState();
+    switch(checkState){
         case MagBrace::MagBraceState::Homed:
             SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
             break;

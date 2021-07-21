@@ -72,7 +72,7 @@ void Charon::UpdateBody(){              //START HERE 7_4 - get to compile and ro
     }*/
 
     if(magBraceR){
-        if( magBraceR->currentState == MagBrace::MagBraceState::Anchored)
+        if( magBraceR->getState() == MagBrace::MagBraceState::Anchored)
         
         if(magBraceR->isActive()){
             UnitVector temp = magBraceR->calculateOriginTrigForce();
@@ -113,7 +113,7 @@ void Charon::UpdateMagBraces(){
     //    magRight->setCurrentPoint(tempPt);
     //}
     magBraceR->setOriginPoint(tempPt);
-    if( magBraceR->currentState == MagBrace::MagBraceState::Homed){
+    if( magBraceR->getState() == MagBrace::MagBraceState::Homed){
         magBraceR->setCurrentPoint(tempPt);
     }
 }

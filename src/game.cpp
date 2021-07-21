@@ -151,13 +151,13 @@ void Game::checkCharCollisions(){
 }
 
 void Game::checkMagBraceRightCollisions(){
-    if(magBraceR->currentState == MagBrace::MagBraceState::Launched){
+    if(magBraceR->getState() == MagBrace::MagBraceState::Launched){
         //Check Roid Belt //multiple roids object for possible collisions with roid.
         if (roid.RoidCell(magBraceR->c_x, magBraceR->c_y)){     //Later: change to specified collision Points
             //Magbrace has collided with a roid
             roid.anchoredRight = true;
             magBraceR->setAnchored(true);
-            magBraceR->currentState = MagBrace::MagBraceState::Anchored;
+            magBraceR->setState(MagBrace::MagBraceState::Anchored);
 
             if(!roid.magBraceR){  roid.magBraceR = magBraceR;   }      
             
@@ -176,7 +176,7 @@ void Game::checkMagBraceRightCollisions(){
             //Magbrace has collided with a roid
             roidBelt->getCollidedRoid()->anchoredRight = true;
             magBraceR->setAnchored(true);
-            magBraceR->currentState = MagBrace::MagBraceState::Anchored;
+            magBraceR->setState(MagBrace::MagBraceState::Anchored);
 
             if(!roidBelt->getCollidedRoid()->magBraceR){  
                 roidBelt->getCollidedRoid()->magBraceR = magBraceR;   //should maybe be a private functions

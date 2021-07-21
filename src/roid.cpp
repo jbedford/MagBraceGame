@@ -99,7 +99,7 @@ void Roid::UpdateMagBraceL(){
 
 void Roid::CheckIfMagBraceRReleased(){
     if(magBraceR){
-        if(magBraceR->currentState != MagBrace::MagBraceState::Anchored){
+        if(magBraceR->getState() != MagBrace::MagBraceState::Anchored){
             magBraceR = NULL;
             anchoredRight = false;
         }
