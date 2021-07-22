@@ -42,33 +42,38 @@ Player can rotate in place and use the bright green aim lines to indictate the d
 
 **Loops, Functions, I/O:**
 - The project demonstrates an understanding of C++ functions and control structures:
-  - see file magbrace.cpp - MagBrace::UpdateBracePoints()
-  - see file renderer.cpp - Renderer::Render()
+  - see file magbrace.cpp - MagBrace::UpdateBracePoints() - _line 126_
+  - see file renderer.cpp - Renderer::Render() - _lines 82 - 102_
+  - see file roidBelt.cpp - RoidBelt::CheckCollision() - _line 36_
 - Project reads from file
   - N/A
 - Project accepts user input and processes the input: 
-  - see controller.cpp - Controller::HandleInput()
+  - see controller.cpp - Controller::HandleInput() - _line 23_
 
 
 **Object Oriented Programming:**
 - Project Uses Object Oriented Programming Techniques
-  - see magbrace.h magbrace.cpp roid.h roid.cpp
+  - see magbrace.h magbrace.cpp roid.h roid.cpp - _all lines_ 
 - Classes use appropriate access for class members
-  - see magbrace.h magbrace.cpp roid.h roid.cpp charon.h charon.cpp
+  - see magbrace.h - _line 9 & 104_
+  - see roid.h - _line 9 & 58_
+  - charon.h - _line 10 & 54_
 - Class constructors utilize member initializatoin lists.
-  - see magbrace.h roid.h charon.h
+  - see magbrace.h - _line 12_
+  - see roid.h - _line 10_
+  - see charon.h - _line 14_
 - Classes abstract implementatoin details form their interfaces
-  - see magbrace.h  N/A
+  - see magbrace.h - _lines 57-90 & lines 105-123_
 - Classes encapsulate behavior
-  - see magbrace.h magbrace.cpp currentState
+  - see magbrace.h - _lines 88,89,& 123_ (for currentState)
     
 
 **Memory Management:**
 - The project uses destructors appropriately
-  - see roid.h 
-        see magbrace.h
+  - see roid.h - _line 25_
+  - see magbrace.h - _line 19_
 - The project follows the Rule of 5
-  - see magbrace.h
+  - see magbrace.h - _lines 19 - 56_
     
 **Concurrency**
 - N/A
