@@ -2,14 +2,6 @@
 #include <cmath>
 #include <iostream>
 
-//MagBrace::MagBrace() : c_x(0.0f), c_y(0.0f), 
-//                        currentState(MagBraceState::Homed) {}
-
-//copy constructor
-//MagBrace::MagBrace(const MagBrace &){}
-
-//copy assignment operator
-//MagBrace &operator=(const MagBrace &){}
 
 Point MagBrace::getCurrentPoint()               { return currentPoint; }
 Point MagBrace::getOriginPoint()                { return originPoint; }
@@ -47,12 +39,12 @@ void MagBrace::launch(){
         float offset1 = 0.34f;
         float offset2 = 1.00f;
 
-        //angle is either set before hand by the charon class (with each update) or calculated on spot by magbrace class
-        //launchAngle.x = angle;      //30 degree offset from char angle
+        //angle is set before hand by the charon class with each update
+        //launchAngle is 30 degree offset from charon angle, supposed to be right arm launched
         launchAngle.x = cos((-homedAngle + 1.5709)-offset1);
         launchAngle.y = -sin((-homedAngle + 1.5709)-offset1);
 
-        c_angle = (-homedAngle + 1.5709)-offset1;           //setting generic angle
+        c_angle = (-homedAngle + 1.5709)-offset1;          
 
         launched = true;
         currentState = MagBraceState::Launched;
@@ -127,13 +119,12 @@ void MagBrace::Update()
             break; 
     }
 
-    //also update angle and pos...
+    //Update angle and pos of render points
     UpdateBracePoints();
 }
 
 void MagBrace::UpdateBracePoints(){
-    //Print angle to make sure updating
-    //std::cout << "Brace Angle: " << c_angle << std::endl;
+    //Calculates Brace Angle
     for(int i = 0; i < vertexCount; i++){
         magBraceBodyPoints[i].x = static_cast<int>((static_cast<float>(BraceVertexPoints[i][0]) * cos(c_angle)) + (static_cast<float>(BraceVertexPoints[i][1]) * -sin(c_angle))) + static_cast<int>(c_x);
         magBraceBodyPoints[i].y = static_cast<int>((static_cast<float>(BraceVertexPoints[i][0]) * sin(c_angle)) + (static_cast<float>(BraceVertexPoints[i][1]) * cos(c_angle))) + static_cast<int>(c_y);

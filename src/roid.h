@@ -23,18 +23,15 @@ class Roid {
 
             }
         ~Roid(){
-            for(int i; i< 8; i++){
-                delete &roidPoints[i];
-            }
-            //delete roidPoints;
+            delete[] roidPoints;
         }
         
         void Update();
 
-        bool RoidCell(float x, float y);//IsCollision           remembering anchor location.
+        bool RoidCell(float x, float y);
         int GetRoidID() { return roidID; }
 
-        bool isAnchoredRight();  //maybe public
+        bool isAnchoredRight();
         bool isAnchoredLeft();
 
         void setRAnchorPointOffset(Point anchorR);
@@ -45,25 +42,20 @@ class Roid {
         bool alive{true};
 
 
-        //float force_x;
-
-        //float theta{-0.5f};
-        float vel_x {150.0f};             //in m/s
-        float vel_y {-15.0f};             //in m/s
+        float vel_x {150.0f};               //in m/s
+        float vel_y {-15.0f};               //in m/s
 
         float c_x {0.0f};
         float c_y {0.0f};
 
         int vertexCount {8};
-        //std::vector<SDL_Point> roidPointsBody;
-        SDL_Point * roidPoints;         //Make a Smart pointer 
+
+        SDL_Point * roidPoints;
 
         MagBrace *magBraceR = NULL;
         MagBrace *magBraceL = NULL;
 
     private:
-        //void UpdateAnchorPos();
-        //void UpdateDynamics();
         void UpdateRoidPoints();
         void UpdateMagBraceR();
         void UpdateMagBraceL();
@@ -71,16 +63,16 @@ class Roid {
 
         int roidID; 
 
-        float _mass         {1800.0f}; //2 tons = 1800 kgs  1200
-        float _cycleTime    {.016f};    //in ms,  16 ms
+        float _mass         {1800.0f};      //2 tons = 1800 kgs  1200
+        float _cycleTime    {.016f};        //in ms,  16 ms
 
         Point AnchorRightOffset;
         Point AnchorLeftOffset;
 
         int _init_x;
         int _init_y;
-        int _screen_width;              //what is a point in meters
-        int _screen_height;             //let's say 1/4 meters.
+        int _screen_width;                  //1 pixel point is 1/4 meters
+        int _screen_height;                 
         int _roidVertexCount {8};
         int roidVertexPoints [8][2] = {{-30,-8}, 
                             {-10,-30},
@@ -91,8 +83,8 @@ class Roid {
                             {-15,12},
                             {-30,-8} };
         
-        float collisionBounds [4] = { -30.0f, 45.0f, 20.0f, -40.0f};         //{left, right, Ceiling, floor}  
-        float collisionRadius = 30.0f;                             //radius of collision;
+        float collisionBounds [4] = { -30.0f, 45.0f, 20.0f, -40.0f};    //{left, right, Ceiling, floor}  
+        float collisionRadius = 30.0f;                                  //radius of collision;
 
 
 };

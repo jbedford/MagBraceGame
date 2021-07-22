@@ -3,9 +3,8 @@
 #include <SDL.h>
 #include <charon.h>
 
-void Controller::ChangeDirection(Charon &charon, Charon::Direction input,
-                                Charon::Direction opposite) const {
-    if (charon.direction != opposite) charon.direction = input;     //remove opposite distance
+void Controller::ChangeDirection(Charon &charon, Charon::Direction input) const {
+    charon.direction = input;
     return;
 }
 
@@ -23,7 +22,7 @@ void Controller::RightBraceRelease(MagBrace &magbrace) const{
 
 void Controller::HandleInput(bool &running, Charon &charon, MagBrace &magbraceR) const{
     SDL_Event e;
-    while (SDL_PollEvent(&e)) {                 //Occurs at any event keypress, mouse click etc
+    while (SDL_PollEvent(&e)) {
         if (e.type == SDL_QUIT) {
             running = false;
         } 
@@ -32,50 +31,41 @@ void Controller::HandleInput(bool &running, Charon &charon, MagBrace &magbraceR)
             switch (e.key.keysym.sym) {
                 
                 case SDLK_UP:
-                    ChangeDirection(charon, Charon::Direction::kUp,
-                                    Charon::Direction::kDown);                          //pass reference to charon object
-                    
-                    break;
-
-                case SDLK_DOWN:
-                    ChangeDirection(charon, Charon::Direction::kDown,
-                                    Charon::Direction::kUp);
-                    
+                    ChangeDirection(charon, Charon::Direction::kUp);
                     break;
 
                 case SDLK_LEFT:
-                    ChangeDirection(charon, Charon::Direction::kLeft,
-                                    Charon::Direction::kRight);
+                    ChangeDirection(charon, Charon::Direction::kLeft);
                     
                     break;
                 case SDLK_c:
-                    ChangeDirection(charon, Charon::Direction::kLeft,
-                                    Charon::Direction::kRight);
+                    ChangeDirection(charon, Charon::Direction::kLeft);
                     break;
 
                 case SDLK_RIGHT:
-                    ChangeDirection(charon, Charon::Direction::kRight,
-                                    Charon::Direction::kLeft);
+                    ChangeDirection(charon, Charon::Direction::kRight);
                     
                     break; 
                 case SDLK_n:
-                    ChangeDirection(charon, Charon::Direction::kRight,
-                                    Charon::Direction::kLeft);
+                    ChangeDirection(charon, Charon::Direction::kRight);
                     break;
 
-                case SDLK_i:
+                case SDLK_w://i:
                     RightBraceLaunch(magbraceR, 0);
                     break;
 
-                case SDLK_j:
+                case SDLK_s://j:
                     magbraceR.activatePull();
                     break;
 
-                case SDLK_k:
+                case SDLK_d://SDLK_k:
                     magbraceR.activatePush();
                     break;
 
-                case SDLK_h:
+                case SDLK_SPACE://h:
+                    RightBraceRelease(magbraceR);
+                    break;
+                case SDLK_a://h:
                     RightBraceRelease(magbraceR);
                     break;
             }

@@ -4,7 +4,7 @@
 
 
 void RoidBelt::SetUpRoidBelt(){
-    //set up starting 2D array to populate
+    //Future - set 2D array to populate Roid Belt or read from file.
     std::cout << "Populating Roids in Roid Belt" << std::endl;
     totalRoids = 0;
     Roid* roid1 = new Roid(450, 300, _grid_width, _grid_height, -1.0f, -3.0f, 1);
@@ -25,11 +25,8 @@ void RoidBelt::SetUpRoidBelt(){
     Roid* roid6 = new Roid(400, 400, _grid_width, _grid_height, -8.0f, -3.0f, 6);
     roids.push_back(roid6);
     totalRoids++;
-    //500, 250,0, -10; -38.0f , 120.0f
+
 }
-
-//void AddNewRoid(roid * newRoid){}
-
 
 void RoidBelt::Update()
 {   
@@ -40,7 +37,7 @@ bool RoidBelt::CheckCollision(float x, float y)
 {
     for(int i = 0; i<roids.size(); i++){
         if(roids[i]->RoidCell(x, y)){
-            collidedRoid = roids[i];   //setting a point to point to same location in memory.
+            collidedRoid = roids[i];            //setting a pointer to point to same location in memory.
             return true;
         }
     }

@@ -58,8 +58,15 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
         if(winGame){
             std::cout << std::endl;
-            std::cout << "GAME OVER! ALL SURVIVORS RESCUED! YOU WIN!" << std::endl;
-            std::this_thread::sleep_for(std::chrono::milliseconds(2000));  //Consider making this a thread.
+            std::cout << "GAME OVER!" << std::endl;
+            std::cout << "ALL SURVIVORS RESCUED!" << std::endl;
+            if (charon.alive){
+                std::cout << "CHARON SURVIVED! YOU WIN!" << std::endl;
+            }
+            else{
+                std::cout << "BUT UNFORTUNATLY CHARON (PLAYER) DIED! YOU LOSE!" << std::endl << std::endl;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));  //Consider making this a simple thread.
             return;
         }
     }
@@ -78,43 +85,32 @@ void Game::PlaceSurvivor() {
 }
 
 void Game::Update() {
-    ///////////if (!charon.alive) return;
-    if(winGame){
-
-    }
 
     charon.Update();
 
     roidBelt->Update();
 
-
-    //magBraces.Update();
-    //magBraceR->Update();
     magBraceR->Update();
-
-    //evacShip.Update();
 
     int new_x = static_cast<int>(charon.c_x);
     int new_y = static_cast<int>(charon.c_y);
 
-    // check if Charon rescued Survivor
-    //if (survivor.x == new_x &&  survivor.y == new_y) {
+    // check if Charon rescued current Survivor
     if (abs((survivor.x+5)-new_x) < 25 &&  abs((survivor.y+5) - new_y) < 25) {
         score++;
         survivorCount++;
         
-        if(survivorCount >= 1){
+        if(survivorCount >= 4){
             winGame = true;
         }
         else{
             PlaceSurvivor();
-            //consider stopping velocity
         }
     }
     
+    //Check Collisions with Roids
     checkCharCollisions();
     checkMagBraceRightCollisions();
-    //Dynamics of the game here. Mag forces and speed, NO, just the Games objects
 
 }
 
@@ -130,14 +126,14 @@ void Game::checkCharCollisions(){
 void Game::checkMagBraceRightCollisions(){
     if(magBraceR->getState() == MagBrace::MagBraceState::Launched){
         
-        if (roidBelt->CheckCollision(magBraceR->c_x, magBraceR->c_y)){     //Later: change to specified collision Points
+        if (roidBelt->CheckCollision(magBraceR->c_x, magBraceR->c_y)){     
             //Magbrace has collided with a roid
             roidBelt->getCollidedRoid()->anchoredRight = true;
             magBraceR->setAnchored(true);
             magBraceR->setState(MagBrace::MagBraceState::Anchored);
 
             if(!roidBelt->getCollidedRoid()->magBraceR){  
-                roidBelt->getCollidedRoid()->magBraceR = magBraceR;   //should maybe be a private functions
+                roidBelt->getCollidedRoid()->magBraceR = magBraceR;   //Passes the Collided Roid a pointer to MagBrace 
             }
             
             else{ std::cout << "Error: Issue with unassigning pointer" << std::endl;}
